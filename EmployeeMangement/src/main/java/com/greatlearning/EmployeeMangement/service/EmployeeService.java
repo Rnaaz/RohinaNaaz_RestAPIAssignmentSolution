@@ -13,7 +13,7 @@ public interface EmployeeService {
 
 	public Employee findById(int id);
 
-	public void save(Employee employee);
+	public Employee save(Employee employee);
 
 	public void deleteById(int id);
 

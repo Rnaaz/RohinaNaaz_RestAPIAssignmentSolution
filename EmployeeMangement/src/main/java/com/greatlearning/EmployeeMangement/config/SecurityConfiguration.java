@@ -44,12 +44,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		// HTTP Basic authentication
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, "/api").hasAnyRole("USER", "ADMIN")
-				.antMatchers(HttpMethod.POST, "/api").hasRole("ADMIN").antMatchers(HttpMethod.PUT, "/api")
-				.hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "/api").hasRole("ADMIN").antMatchers("/").permitAll()
-				.and().formLogin().disable();
-
+		
+		http.authorizeRequests()
+        .antMatchers("/").permitAll()
+        .antMatchers("/h2-console/**").permitAll()
+        .antMatchers(HttpMethod.DELETE, "/api/employees/{employeeId}").hasAuthority("ADMIN")
+        .antMatchers(HttpMethod.POST, "/api/employees").hasAuthority("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/api/employees/**").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers(HttpMethod.GET, "/api/employees/list","/api/employees/sort", "/api/employees/search").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers("/api/users/**").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/roles").hasAuthority("ADMIN")
+        .and().httpBasic()
+        .and().cors().and().csrf().disable().formLogin().disable();
+		http.headers().frameOptions().disable();
+				 
 	}
 
 	@Override

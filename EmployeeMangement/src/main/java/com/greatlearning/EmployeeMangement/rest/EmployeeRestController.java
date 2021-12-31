@@ -24,14 +24,14 @@ public class EmployeeRestController {
 	private EmployeeService employeeService;
 
 	// Get All Employees List
-	@GetMapping
+	@GetMapping("/list")
 	public List<Employee> getEmployeeList() {
 		return employeeService.getEmployeeList();
 	}
 
 	// Get an employee record based on the id of that employee
 	@GetMapping("/{employeeId}")
-	public Employee getEmployee(@PathVariable("employeeId") int employeeId) {
+	public Employee getEmployee(@PathVariable int employeeId) {
 		Employee theEmployee = employeeService.findById(employeeId);
 		if (theEmployee == null) {
 			throw new RuntimeException("Employee id is invalid");
@@ -50,18 +50,18 @@ public class EmployeeRestController {
 
 	// Update an existing employee record
 	@PutMapping("/{employeeId}")
-	public void updateEmployee(@RequestBody Employee employee, @PathVariable("employeeId") int employeeId) {
+	public  Employee updateEmployee(@RequestBody Employee employee, @PathVariable int employeeId) {
 		Employee theEmployee = employeeService.findById(employeeId);
 		theEmployee.setFirstName(employee.getFirstName());
 		theEmployee.setLastName(employee.getLastName());
 		theEmployee.setEmail(employee.getEmail());
-		employeeService.save(theEmployee);
+		return employeeService.save(theEmployee);
 
 	}
 
 	// Delete an employee
 	@DeleteMapping("/{employeeId}")
-	public String deleteEmployee(@PathVariable("employeeId") int employeeId) {
+	public String deleteEmployee(@PathVariable int employeeId) {
 		Employee theEmployee = employeeService.findById(employeeId);
 		System.out.println(theEmployee);
 		if (theEmployee == null) {

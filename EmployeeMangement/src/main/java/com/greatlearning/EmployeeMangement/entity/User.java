@@ -41,11 +41,16 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@ElementCollection
-	private List<Role> roles = new ArrayList<>();
+	
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(
+			name = "user_roles", 
+			joinColumns = @JoinColumn(name = "user_id"), 
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+			)
+	
+	private List<Role> roles = new ArrayList<>();
 
 	public Long getId() {
 		return id;

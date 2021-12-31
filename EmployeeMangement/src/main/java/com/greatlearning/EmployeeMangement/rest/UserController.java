@@ -20,18 +20,19 @@ public class UserController {
 	UserService userService;
 
 	// Get All Users
-	@GetMapping
+	@GetMapping("/list")
 	public List<User> getAllUsers() {
 		return userService.findAll();
 	}
 
 	// Add a user in Database
-	@PostMapping
+	@PostMapping("/add")
 	public User addUser(@RequestBody User user) {
 		user.setId(0l);
 		System.out.println(user);
-		userService.save(user);
-		return user;
+		return userService.save(user);
+//		 return user;
+		
 	}
 
 }
